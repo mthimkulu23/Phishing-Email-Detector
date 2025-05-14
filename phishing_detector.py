@@ -112,8 +112,9 @@ def main():
     print("Choose an option:")
     print("1. Analyze Email Content")
     print("2. Analyze a URL")
+    print("3. Exit")
 
-    choice = input("Enter 1 or 2: ").strip()
+    choice = input("Enter 1, 2, or 3: ").strip()
 
     if choice == '1':
         print("\nPaste the full email content below. Press Enter twice to finish:")
@@ -173,8 +174,12 @@ def main():
         else:
             print("No suspicious indicators found in the URL.")
 
+    elif choice == '3':
+        print("Exiting... Goodbye!")
+        sys.exit(0)
+
     else:
-        print("Invalid option. Please enter 1 or 2.")
+        print("Invalid option. Please enter 1, 2, or 3.")
 
     print("\n=== Analysis Complete ===")
 
