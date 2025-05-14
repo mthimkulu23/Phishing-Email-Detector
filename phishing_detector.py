@@ -52,22 +52,44 @@ def analyze_links(text):
     url_pattern = re.compile(r'https?://[^\s<>"]+|www\.[^\s<>"]+')
     ip_pattern = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
 
+    # List of trusted domains (can add more or use a more sophisticated check)
+    trusted_domains = ['paypal.com', 'google.com', 'microsoft.com', 'apple.com', 'github.com']
+
+    # List of common phishing words that can be in the domain
+    phishing_domains = ['paypal-update', 'secure-paypal', 'login', 'account', 'verify']
+
     urls = url_pattern.findall(text)
 
     for url in urls:
         try:
             parsed = urlparse(url if url.startswith('http') else f'http://{url}')
-            domain = parsed.netloc
+            domain = parsed.netloc.lower()
 
+            # Check if the domain is suspicious (mimicking trusted domains)
+            if any(td in domain for td in phishing_domains):
+                suspicious_links.append(f"Suspicious domain (mimicking trusted domains): {url}")
+                continue  # Skip further checks for these
+
+            # Check if domain matches a trusted domain
+            if any(domain.endswith(td) for td in trusted_domains):
+                continue  # skip further analysis for trusted domains
+
+            # Flag non-HTTPS URLs
+            if parsed.scheme != 'https':
+                suspicious_links.append(f"Insecure (non-HTTPS) URL: {url}")
+
+            # Flag IP address usage
             if ip_pattern.search(domain):
                 suspicious_links.append(f"URL contains IP address: {url}")
                 continue
 
+            # Check for URL shorteners
             shorteners = ['bit.ly', 'goo.gl', 'tinyurl', 'ow.ly', 't.co']
             if any(s in domain for s in shorteners):
                 suspicious_links.append(f"URL shortener detected: {url}")
                 continue
 
+            # Check for suspicious subdomain structure
             parts = domain.split('.')
             if len(parts) > 2 and parts[-2] not in ['com', 'net', 'org']:
                 suspicious_links.append(f"Suspicious subdomain structure: {url}")
