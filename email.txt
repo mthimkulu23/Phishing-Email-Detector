@@ -1,0 +1,14 @@
+From: "Paypal Support" <support@paypal.com>
+Reply-To: scammer@phishy.com
+Subject: Urgent: Update Your Account
+X-Originating-IP: 203.0.113.45
+X-Mailer: FakeMailer v1.0
+
+Dear user,
+
+We detected unusual activity on your account. Please verify your login info immediately by visiting the following link:
+
+http://bit.ly/secure-login-paypal
+
+Thank you,
+Paypal Security Team
