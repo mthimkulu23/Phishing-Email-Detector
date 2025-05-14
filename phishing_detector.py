@@ -20,6 +20,7 @@ def analyze_headers(headers):
     if from_header:
         from_email = from_header.group(1)
         if '@' not in from_email:
+            print (from_email)
             suspicious_flags.append(f"Invalid From address (missing '@'): {from_email}")
     else:
         suspicious_flags.append("No valid 'From' header found or wrong format.")
