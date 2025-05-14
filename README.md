@@ -26,7 +26,7 @@ Clone this repository:
 bash
 Copy
 Edit
-git clone https://github.com/yourusername/phishing-detection-tool.git
+git clone https://github.com/mthimkulu23/Phishing-Email-Detector.git
 Navigate to the project directory:
 
 bash
