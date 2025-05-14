@@ -17,7 +17,6 @@ def analyze_headers(headers):
     from_header = re.search(r'From:.*?<([^>]+)>', headers, re.IGNORECASE)
     reply_to_header = re.search(r'Reply-To:.*?<([^>]+)>', headers, re.IGNORECASE)
 
-    # Check if "From" header exists
     if from_header:
         from_email = from_header.group(1)
         if '@' not in from_email:
@@ -25,7 +24,6 @@ def analyze_headers(headers):
     else:
         suspicious_flags.append("Missing 'From' header.")
 
-    # Check if "Reply-To" header exists
     if reply_to_header:
         reply_email = reply_to_header.group(1)
         if '@' not in reply_email:
@@ -33,14 +31,12 @@ def analyze_headers(headers):
     else:
         suspicious_flags.append("Missing 'Reply-To' header.")
 
-    # Compare domains
     if from_header and reply_to_header:
         from_domain = from_email.split('@')[-1]
         reply_domain = reply_email.split('@')[-1]
         if from_domain.lower() != reply_domain.lower():
             suspicious_flags.append(f"Mismatched From/Reply-To domains: {from_domain} vs {reply_domain}")
 
-    # Check for spoofing
     if 'X-Mailer' not in headers and 'X-Originating-IP' not in headers:
         suspicious_flags.append("Missing important headers (possible spoofing)")
 
@@ -52,10 +48,7 @@ def analyze_links(text):
     url_pattern = re.compile(r'https?://[^\s<>"]+|www\.[^\s<>"]+')
     ip_pattern = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
 
-    # List of trusted domains (can add more or use a more sophisticated check)
     trusted_domains = ['paypal.com', 'google.com', 'microsoft.com', 'apple.com', 'github.com']
-
-    # List of common phishing words that can be in the domain
     phishing_domains = ['paypal-update', 'secure-paypal', 'login', 'account', 'verify']
 
     urls = url_pattern.findall(text)
@@ -65,31 +58,25 @@ def analyze_links(text):
             parsed = urlparse(url if url.startswith('http') else f'http://{url}')
             domain = parsed.netloc.lower()
 
-            # Check if the domain is suspicious (mimicking trusted domains)
             if any(td in domain for td in phishing_domains):
                 suspicious_links.append(f"Suspicious domain (mimicking trusted domains): {url}")
-                continue  # Skip further checks for these
+                continue
 
-            # Check if domain matches a trusted domain
             if any(domain.endswith(td) for td in trusted_domains):
-                continue  # skip further analysis for trusted domains
+                continue
 
-            # Flag non-HTTPS URLs
             if parsed.scheme != 'https':
                 suspicious_links.append(f"Insecure (non-HTTPS) URL: {url}")
 
-            # Flag IP address usage
             if ip_pattern.search(domain):
                 suspicious_links.append(f"URL contains IP address: {url}")
                 continue
 
-            # Check for URL shorteners
             shorteners = ['bit.ly', 'goo.gl', 'tinyurl', 'ow.ly', 't.co']
             if any(s in domain for s in shorteners):
                 suspicious_links.append(f"URL shortener detected: {url}")
                 continue
 
-            # Check for suspicious subdomain structure
             parts = domain.split('.')
             if len(parts) > 2 and parts[-2] not in ['com', 'net', 'org']:
                 suspicious_links.append(f"Suspicious subdomain structure: {url}")
@@ -111,7 +98,17 @@ def analyze_content(text):
     return suspicious_content
 
 def main():
-    print("\033[1;31m=== Phishing Detection Tool ===\033[0m")
+    print("\033[1;31m")
+    print("██████╗ ██╗  ██╗██╗███████╗██╗ ██████╗██╗  ██╗")
+    print("██╔══██╗██║  ██║██║██╔════╝██║██╔════╝██║ ██╔╝")
+    print("██████╔╝███████║██║█████╗  ██║██║     █████╔╝ ")
+    print("██╔═══╝ ██╔══██║██║██╔══╝  ██║██║     ██╔═██╗ ")
+    print("██║     ██║  ██║██║██║     ██║╚██████╗██║  ██╗")
+    print("╚═╝     ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝╚═╝  ╚═╝")
+    print("             PHISHING DETECTION TOOL")
+    print("\033[0m")
+    print("Built by Thabang Mthimkulu - Technical Cybersecurity\n")
+
     print("Choose an option:")
     print("1. Analyze Email Content")
     print("2. Analyze a URL")
@@ -135,7 +132,6 @@ def main():
 
         print("\n=== Phishing Email Analysis Report ===\n")
 
-        # Try to split headers and body using double newline
         headers = ''
         headers_end = email_content.find('\n\n')
         if headers_end != -1:
