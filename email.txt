@@ -1,14 +1,17 @@
-From: "Paypal Support" <support@paypal.com>
-Reply-To: scammer@phishy.com
-Subject: Urgent: Update Your Account
-X-Originating-IP: 203.0.113.45
-X-Mailer: FakeMailer v1.0
+From: "PayPal Support" <support@secure-paypal.com>
+Reply-To: "PayPal Team" <helpdesk@paypal-update.com>
+Subject: Important - Update Your Account Now
+Date: Mon, 13 May 2024 10:42:00 -0700
+X-Mailer: Microsoft Outlook
+
 
 Dear user,
 
-We detected unusual activity on your account. Please verify your login info immediately by visiting the following link:
+We detected unusual activity in your PayPal account. To secure your account, please verify your information immediately.
 
-http://bit.ly/secure-login-paypal
+Click here to update your credentials: http://secure-paypal-login-update.com/verify
 
-Thank you,
-Paypal Security Team
+Failure to update within 24 hours will result in account suspension.
+
+Sincerely,  
+PayPal Security Team

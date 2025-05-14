@@ -22,7 +22,7 @@ def analyze_headers(headers):
         if '@' not in from_email:
             suspicious_flags.append(f"Invalid From address (missing '@'): {from_email}")
     else:
-        suspicious_flags.append("Missing 'From' header.")
+        suspicious_flags.append("No valid 'From' header found or wrong format.")
 
     if reply_to_header:
         reply_email = reply_to_header.group(1)
@@ -48,7 +48,7 @@ def analyze_links(text):
     url_pattern = re.compile(r'https?://[^\s<>"]+|www\.[^\s<>"]+')
     ip_pattern = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
 
-    trusted_domains = ['paypal.com', 'google.com', 'microsoft.com', 'apple.com', 'github.com']
+    trusted_domains = ['paypal.com', 'google.com', 'microsoft.com', 'apple.com', 'github.com', 'chatgpt.com', 'shaper.co.za']
     phishing_domains = ['paypal-update', 'secure-paypal', 'login', 'account', 'verify']
 
     urls = url_pattern.findall(text)
@@ -59,7 +59,7 @@ def analyze_links(text):
             domain = parsed.netloc.lower()
 
             if any(td in domain for td in phishing_domains):
-                suspicious_links.append(f"Suspicious domain (mimicking trusted domains): {url}")
+                suspicious_links.append(f"Suspicious domain (This is untrusted Domain!): {url}")
                 continue
 
             if any(domain.endswith(td) for td in trusted_domains):
@@ -97,6 +97,48 @@ def analyze_content(text):
 
     return suspicious_content
 
+def extract_headers(email_content):
+    """Extract headers using double newline or first blank line fallback"""
+    parts = email_content.splitlines()
+    split_index = 0
+    for i in range(len(parts)):
+        if parts[i].strip() == "":
+            split_index = i
+            break
+    headers = "\n".join(parts[:split_index])
+    return headers
+
+def run_analysis(email_content):
+    print("\n=== Phishing Email Analysis Report ===\n")
+
+    headers = extract_headers(email_content)
+
+    header_flags = analyze_headers(headers)
+    if header_flags:
+        print("Suspicious Headers Detected:")
+        for flag in header_flags:
+            print(f" - {flag}")
+    else:
+        print("No suspicious headers detected.")
+
+    link_flags = analyze_links(email_content)
+    if link_flags:
+        print("\nSuspicious Links Detected:")
+        for flag in link_flags:
+            print(f" - {flag}")
+    else:
+        print("\nNo suspicious links detected.")
+
+    content_flags = analyze_content(email_content)
+    if content_flags:
+        print("\nSuspicious Content Detected:")
+        for flag in content_flags:
+            print(f" - {flag}")
+    else:
+        print("\nNo suspicious content detected.")
+
+    print("\n=== Analysis Complete ===")
+
 def main():
     print("\033[1;31m")
     print("██████╗ ██╗  ██╗██╗███████╗██╗ ██████╗██╗  ██╗")
@@ -113,8 +155,9 @@ def main():
     print("1. Analyze Email Content")
     print("2. Analyze a URL")
     print("3. Exit")
+    print("4. Analyze Email from File")
 
-    choice = input("Enter 1, 2, or 3: ").strip()
+    choice = input("Enter 1, 2, 3 or 4: ").strip()
 
     if choice == '1':
         print("\nPaste the full email content below. Press Enter twice to finish:")
@@ -128,41 +171,8 @@ def main():
             except KeyboardInterrupt:
                 print("\nInput interrupted.")
                 return
-
         email_content = '\n'.join(lines)
-
-        print("\n=== Phishing Email Analysis Report ===\n")
-
-        headers = ''
-        headers_end = email_content.find('\n\n')
-        if headers_end != -1:
-            headers = email_content[:headers_end]
-        else:
-            headers = email_content
-
-        header_flags = analyze_headers(headers)
-        if header_flags:
-            print("Suspicious Headers Detected:")
-            for flag in header_flags:
-                print(f" - {flag}")
-        else:
-            print("No suspicious headers detected.")
-
-        link_flags = analyze_links(email_content)
-        if link_flags:
-            print("\nSuspicious Links Detected:")
-            for flag in link_flags:
-                print(f" - {flag}")
-        else:
-            print("\nNo suspicious links detected.")
-
-        content_flags = analyze_content(email_content)
-        if content_flags:
-            print("\nSuspicious Content Detected:")
-            for flag in content_flags:
-                print(f" - {flag}")
-        else:
-            print("\nNo suspicious content detected.")
+        run_analysis(email_content)
 
     elif choice == '2':
         url = input("Enter the URL to check: ").strip()
@@ -178,10 +188,19 @@ def main():
         print("Exiting... Goodbye!")
         sys.exit(0)
 
-    else:
-        print("Invalid option. Please enter 1, 2, or 3.")
+    elif choice == '4':
+        filename = input("Enter file path: ").strip()
+        try:
+            with open(filename, 'r') as f:
+                email_content = f.read()
+            run_analysis(email_content)
+        except FileNotFoundError:
+            print(f"File not found: {filename}")
+        except Exception as e:
+            print(f"Error reading file: {e}")
 
-    print("\n=== Analysis Complete ===")
+    else:
+        print("Invalid option. Please enter 1, 2, 3 or 4.")
 
 if __name__ == "__main__":
     main()
