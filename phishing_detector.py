@@ -111,7 +111,7 @@ def analyze_content(text):
     return suspicious_content
 
 def main():
-    print("=== Phishing Detection Tool ===")
+    print("\033[1;31m=== Phishing Detection Tool ===\033[0m")
     print("Choose an option:")
     print("1. Analyze Email Content")
     print("2. Analyze a URL")
