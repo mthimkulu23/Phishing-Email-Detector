@@ -33,38 +33,79 @@ def print_report(report):
     print(f"\033[1;35mVerdict: {report['verdict']}\033[0m")
     print("\n=== Analysis Complete ===")
 
+def display_menu():
+    print("\033[1;31m")
+    print("██████╗ ██╗  ██╗██╗███████╗██╗ ██████╗██╗  ██╗")
+    print("██╔══██╗██║  ██║██║██╔════╝██║██╔════╝██║ ██╔╝")
+    print("██████╔╝███████║██║█████╗  ██║██║     █████╔╝ ")
+    print("██╔═══╝ ██╔══██║██║██╔══╝  ██║██║     ██╔═██╗ ")
+    print("██║     ██║  ██║██║██║     ██║╚██████╗██║  ██╗")
+    print("╚═╝     ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝╚═╝  ╚═╝")
+    print("             PHISHING DETECTION TOOL")
+    print("\033[0m")
+    print("Built by Thabang Mthimkulu - Technical Cybersecurity\n")
+
+    print("Choose an option:")
+    print("1. Analyze Email Content")
+    print("2. Analyze a URL")
+    print("3. Analyze Email from File")
+    print("4. Exit")
+
 def main():
-    # ASCII art and menu remains the same
-    # ...
-    
-    if choice == '1':
-        print("\nPaste the full email content below. Press Enter twice to finish:")
-        lines = []
-        while True:
+    while True:
+        display_menu()
+        choice = input("\nEnter your choice (1-4): ").strip()
+        
+        if choice == '1':
+            print("\nPaste the full email content below. Press Enter twice to finish:")
+            lines = []
+            while True:
+                try:
+                    line = input()
+                    if line == '':
+                        if len(lines) >= 1 and lines[-1] == '':
+                            break
+                    lines.append(line)
+                except KeyboardInterrupt:
+                    print("\nInput interrupted.")
+                    return
+            email_content = '\n'.join(lines)
+            report = run_analysis(email_content)
+            print_report(report)
+        
+        elif choice == '2':
+            url = input("\nEnter the URL to check: ").strip()
+            print("\n=== URL Analysis Report ===\n")
+            results = analyze_url(url)
+            if results['flags']:
+                for flag in results['flags']:
+                    print(f" - {flag}")
+                print(f"\nScore: {results['score']}")
+                print(f"Verdict: {results['verdict']}")
+            else:
+                print("\033[1;32mNo suspicious indicators found in the URL.\033[0m")
+        
+        elif choice == '3':
+            filename = input("\nEnter file path: ").strip()
             try:
-                line = input()
-                if line == '':
-                    if len(lines) >= 1 and lines[-1] == '':
-                        break
-                lines.append(line)
-            except KeyboardInterrupt:
-                print("\nInput interrupted.")
-                return
-        email_content = '\n'.join(lines)
-        report = run_analysis(email_content)
-        print_report(report)
-    
-    elif choice == '2':
-        url = input("Enter the URL to check: ").strip()
-        print("\n=== URL Analysis Report ===\n")
-        results = analyze_url(url)
-        if results['flags']:
-            for flag in results['flags']:
-                print(f" - {flag}")
-            print(f"\nScore: {results['score']}")
-            print(f"Verdict: {results['verdict']}")
+                with open(filename, 'r') as f:
+                    email_content = f.read()
+                report = run_analysis(email_content)
+                print_report(report)
+            except FileNotFoundError:
+                print(f"\033[1;31mFile not found: {filename}\033[0m")
+            except Exception as e:
+                print(f"\033[1;31mError reading file: {e}\033[0m")
+        
+        elif choice == '4':
+            print("\nExiting... Goodbye!")
+            sys.exit(0)
+        
         else:
-            print("\033[1;32mNo suspicious indicators found in the URL.\033[0m")
-    
-    # Rest of the menu handling remains the same
-    # ...
+            print("\033[1;31mInvalid option. Please enter a number between 1 and 4.\033[0m")
+        
+        # Add a pause before showing menu again
+        input("\nPress Enter to continue...")
+
+if __name__ == "__main__":
+    main()
