@@ -1,4 +1,7 @@
 pandas
 scikit-learn
 pip
-
+tldextract
+requests
+python-whois 
+beautifulsoup4

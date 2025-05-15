@@ -1,17 +1,9 @@
-from . import model
+from .model import PhishingAnalyzer
+
+analyzer = PhishingAnalyzer()
 
 def run_analysis(email_content):
-    report = {}
+    return analyzer.analyze_email(email_content)
 
-    headers = model.extract_headers(email_content)
-
-    header_flags = model.analyze_headers(headers)
-    report['headers'] = header_flags
-
-    link_flags = model.analyze_links(email_content)
-    report['links'] = link_flags
-
-    content_flags = model.analyze_content(email_content)
-    report['content'] = content_flags
-
-    return report
+def analyze_url(url):
+    return analyzer.analyze_links(url)
