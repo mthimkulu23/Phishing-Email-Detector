@@ -42,8 +42,8 @@ def main():
     print("Choose an option:")
     print("1. Analyze Email Content")
     print("2. Analyze a URL")
-    print("3. Exit")
-    print("4. Analyze Email from File")
+    print("3. Analyze Email from File")
+    print("4. Exit")
 
     choice = input("Enter 1, 2, 3 or 4: ").strip()
 
@@ -73,11 +73,11 @@ def main():
         else:
             print("No suspicious indicators found in the URL.")
 
-    elif choice == '3':
+    elif choice == '4':
         print("Exiting... Goodbye!")
         sys.exit(0)
 
-    elif choice == '4':
+    elif choice == '3':
         filename = input("Enter file path: ").strip()
         try:
             with open(filename, 'r') as f:
