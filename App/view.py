@@ -88,14 +88,22 @@ def main():
         elif choice == '3':
             filename = input("\nEnter file path: ").strip()
             try:
-                with open(filename, 'r') as f:
+                with open(filename, 'r', encoding='utf-8') as f:  # Force UTF-8 encoding
                     email_content = f.read()
                 report = run_analysis(email_content)
                 print_report(report)
             except FileNotFoundError:
                 print(f"\033[1;31mFile not found: {filename}\033[0m")
+            except UnicodeDecodeError:
+                try:
+                    with open(filename, 'r', encoding='latin-1') as f:  # Fallback encoding
+                        email_content = f.read()
+                    report = run_analysis(email_content)
+                    print_report(report)
+                except Exception as e:
+                    print(f"\033[1;31mError reading file: {e}\033[0m")
             except Exception as e:
-                print(f"\033[1;31mError reading file: {e}\033[0m")
+                print(f"\033[1;31mError: {e}\033[0m")
         
         elif choice == '4':
             print("\nExiting... Goodbye!")
