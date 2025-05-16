@@ -34,22 +34,28 @@ def print_report(report):
     print("\n=== Analysis Complete ===")
 
 def display_menu():
-    print("\033[1;31m")
-    print("██████╗ ██╗  ██╗██╗███████╗██╗ ██████╗██╗  ██╗")
-    print("██╔══██╗██║  ██║██║██╔════╝██║██╔════╝██║ ██╔╝")
-    print("██████╔╝███████║██║█████╗  ██║██║     █████╔╝ ")
-    print("██╔═══╝ ██╔══██║██║██╔══╝  ██║██║     ██╔═██╗ ")
-    print("██║     ██║  ██║██║██║     ██║╚██████╗██║  ██╗")
-    print("╚═╝     ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝╚═╝  ╚═╝")
-    print("             PHISHING DETECTION TOOL")
-    print("\033[0m")
-    print("Built by Thabang Mthimkulu - Technical Cybersecurity\n")
-
-    print("Choose an option:")
-    print("1. Analyze Email Content")
-    print("2. Analyze a URL")
-    print("3. Analyze Email from File")
-    print("4. Exit")
+    print("\033[1;31m")  # Bright red color
+    print(r"""
+    ██████╗  ██╗  ██╗ ██╗ ███████╗ ██╗  ██████╗ ██╗  ██╗
+    ██╔══██╗ ██║  ██║ ██║ ██╔════╝ ██║ ██╔════╝ ██║ ██╔╝
+    ██████╔╝ ███████║ ██║ █████╗   ██║ ██║      █████╔╝ 
+    ██╔═══╝  ██╔══██║ ██║ ██╔══╝   ██║ ██║      ██╔═██╗ 
+    ██║      ██║  ██║ ██║ ██║      ██║ ╚██████╗ ██║  ██╗
+    ╚═╝      ╚═╝  ╚═╝ ╚═╝ ╚═╝      ╚═╝  ╚═════╝ ╚═╝  ╚═╝
+    """)
+    print("\033[1;33m")  # Bright yellow for the title
+    print("          P H I S H I N G   D E T E C T I O N   T O O L")
+    print("\033[0m")  # Reset color
+    print("\033[1;32mBuilt by Thabang Mthimkulu - Technical Cybersecurity\033[0m\n")
+    
+    print("\033[1;36m" + "="*60 + "\033[0m")  # Bright cyan separator
+    print("\033[1;34mCHOOSE AN OPTION:\033[0m".center(60))
+    print("\033[1;36m" + "="*60 + "\033[0m")
+    print("\033[1m1. Analyze Email Content\033[0m")
+    print("\033[1m2. Analyze a URL\033[0m")
+    print("\033[1m3. Analyze Email from File\033[0m")
+    print("\033[1m4. Exit\033[0m")
+    print("\033[1;36m" + "="*60 + "\033[0m")
 
 def main():
     while True:
