@@ -128,7 +128,7 @@ class PhishingAnalyzer:
                     pass
                     
             # Check for URL shortening services
-            if any(service in parsed.netloc for service in ['bit.ly', 'goo.gl', 'tinyurl', 'ow.ly', 'tinyurl.com', 'ow.ly', 't.co', 'is.gd', 'buff.ly','cutt.ly','adf.ly', 'bc.vc', 'clk.sh', 'shorturl.at', 'rb.gy', 'rb.gy', 'bit.do', 'clicky.me', 'discord-gift.com', 'steamcommumity.com', 'paypai.com', 'netflix-gift.com', 'microsoft-verify.com', 'amazon-offers.com', 'appleid-verify.com', 'bankofamerica-secure.com', 'dropbox-hr.com', 'whatsapp-chat.com']):
+            if any(service in parsed.netloc for service in ['bit.ly', 'goo.gl', 'tinyurl', 'ow.ly', 'tinyurl.com', 'ow.ly', 't.co', 'is.gd', 'buff.ly','cutt.ly','adf.ly', 'bc.vc', 'clk.sh', 'shorturl.at', 'rb.gy', 'rb.gy', 'bit.do', 'clicky.me', 'discord-gift.com', 'steamcommumity.com', 'paypai.com', 'netflix-gift.com', 'microsoft-verify.com', 'amazon-offers.com', 'appleid-verify.com', 'bankofamerica-secure.com', 'dropbox-hr.com', 'whatsapp-chat.com','verify-account']):
                 flags.append(f"URL uses shortening service: {url}")
                 score += 2
                 
