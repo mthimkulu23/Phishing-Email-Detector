@@ -60,7 +60,7 @@ def display_menu():
 def main():
     while True:
         display_menu()
-        choice = input("\nEnter your choice (1-4): ").strip()
+        choice = input("\nEnter your choice (1 - 4): ").strip()
         
         if choice == '1':
             print("\nPaste the full email content below. Press Enter twice to finish:")
