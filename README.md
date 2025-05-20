@@ -24,6 +24,21 @@ Examines "From" and "Reply-To" headers for signs of spoofing and domain mismatch
 
 Python 3.x
 
+pandas
+
+scikit-learn
+
+pip
+
+tldextract
+
+requests
+
+python-whois 
+
+beautifulsoup4
+
+
 No external libraries required. The following standard Python modules are used:
 
 re
@@ -42,7 +57,9 @@ cd Phishing-Email-Detector
 
 # ▶️ Usage
 Run the tool:
-python phishing_detector.py
+
+python -m App.view 
+
 Choose option 1 to analyze email content.
 
 Paste the full email content (including headers). Press Enter twice to submit.
