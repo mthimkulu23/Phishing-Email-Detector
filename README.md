@@ -66,3 +66,8 @@ Paste the full email content (including headers). Press Enter twice to submit.
 
 View the analysis report for suspicious content, links, and headers.
 
+
+Paste the full email content (including headers). Press Enter twice to submit.
+
+View the analysis report for suspicious content, links, and headers.
+
