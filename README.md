@@ -42,7 +42,7 @@ cd Phishing-Email-Detector
 
 # ▶️ Usage
 Run the tool:
-python phishing_detector.py
+python -m App.view 
 Choose option 1 to analyze email content.
 
 Paste the full email content (including headers). Press Enter twice to submit.
